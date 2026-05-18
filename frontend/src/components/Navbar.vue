@@ -336,8 +336,4 @@ nav a {
   .mobile-drawer { display: none; }
   .mobile-overlay { display: none; }
 }
-
-nav {
-  z-index: 10000000;
-}
 </style>
