@@ -5,6 +5,7 @@
   </div>
   <Companies />
   <Footer />
+  <NotifyProvider />
 </template>
 
 <script setup>
@@ -12,6 +13,7 @@ import Navbar from './components/Navbar.vue'
 import SearchForm from './components/SearchForm.vue'
 import Companies from './components/Companies.vue'
 import Footer from './components/Footer.vue';
+import NotifyProvider from './components/NotifyProvider.vue'
 </script>
 
 <style>
