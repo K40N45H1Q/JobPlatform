@@ -2,8 +2,6 @@
   <teleport to="body">
     <div v-if="modelValue" class="modal-overlay" role="presentation">
       <div class="modal" role="dialog" aria-modal="true" ref="dialog">
-
-        <!-- 🔔 NOTIFY PROVIDER -->
         <NotifyProvider />
 
         <div class="modal-header">
@@ -17,18 +15,14 @@
 
           <button class="modal-close-button" @click="close" aria-label="Close">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 6l12 12M18 6L6 18" stroke="#111" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M6 6l12 12M18 6L6 18" stroke="#111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </button>
         </div>
 
         <div class="modal-body">
-
-          <!-- LOGIN -->
           <div v-if="activeTab === 'login'" class="login-section">
             <form @submit.prevent="submit">
-
               <div class="form-field">
                 <input
                   ref="firstInput"
@@ -55,13 +49,10 @@
               <a href="https://t.me/gh057wr" class="forgot-password-link">
                 {{ $t('forgot_password') }}
               </a>
-
             </form>
           </div>
 
-          <!-- REGISTER -->
           <div v-else class="register-section">
-
             <div v-if="!selectedRole" class="role-selection">
               <h3 class="register-heading">
                 {{ $t('register_as') }}
@@ -77,21 +68,18 @@
             </div>
 
             <div v-else>
-
               <h3 class="register-heading">
                 {{ $t('registration') }}
                 {{ selectedRole === 'jobseeker' ? $t('jobseeker') : $t('employer') }}
               </h3>
 
               <form @submit.prevent="registerSubmit">
-
                 <div class="form-field">
                   <input
                     ref="regFirstInput"
                     v-model="regEmail"
-                    type="email"
+                    type="text"
                     :placeholder="$t('email')"
-                    required
                     autocomplete="email"
                   />
                 </div>
@@ -101,7 +89,6 @@
                     v-model="regPassword"
                     type="password"
                     :placeholder="$t('password')"
-                    required
                     autocomplete="new-password"
                   />
                 </div>
@@ -111,7 +98,6 @@
                     v-model="regConfirmPassword"
                     type="password"
                     :placeholder="$t('confirm_password')"
-                    required
                     autocomplete="new-password"
                   />
                 </div>
@@ -119,12 +105,9 @@
                 <button type="submit" class="primary-button">
                   {{ $t('register') }}
                 </button>
-
               </form>
-
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -133,7 +116,10 @@
 
 <script setup>
 import { ref, watch, onBeforeUnmount, nextTick } from 'vue'
+import { useI18n } from 'vue-i18n'
 import NotifyProvider from './NotifyProvider.vue'
+
+const { t } = useI18n()
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false }
@@ -169,42 +155,56 @@ function handleRoleSelect(role) {
   nextTick(() => regFirstInput.value?.focus())
 }
 
-function notify(msg, type = 'info') {
-  window.notify?.(msg, type)
+function notify(keyOrMessage, type = 'info') {
+  let message
+  try {
+    message = t(keyOrMessage)
+    if (message === keyOrMessage) message = keyOrMessage
+  } catch {
+    message = keyOrMessage
+  }
+  window.notify?.(message, type)
 }
 
-/* LOGIN */
 async function submit() {
   try {
     const res = await fetch(`${API_BASE}/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        username: email.value,
-        password: password.value
-      })
+      body: JSON.stringify({ username: email.value, password: password.value })
     })
 
     const data = await res.json().catch(() => ({}))
 
     if (res.ok && data.status === 'ok') {
       localStorage.setItem('token', data.token)
-      notify('Login successful', 'success')
+      notify('notify.login_success', 'success')
       email.value = password.value = ''
-      close()
+      setTimeout(() => close(), 800)
       return
     }
 
-    throw new Error(data.detail || 'Login error')
+    if (data.detail?.key) {
+      switch (data.detail.key) {
+        case 'missing_fields':
+          throw new Error(t('notify.missing_fields'))
+        case 'invalid_credentials':
+          throw new Error(t('errors.invalid_credentials'))
+        default:
+          throw new Error(t('notify.login_error'))
+      }
+    }
+
+    throw new Error(t('notify.login_error'))
   } catch (e) {
     notify(e.message, 'error')
   }
 }
 
-/* REGISTER */
 async function registerSubmit() {
-  if (regPassword.value !== regConfirmPassword.value)
-    return notify('Passwords do not match', 'warning')
+  if (regPassword.value !== regConfirmPassword.value) {
+    return notify('notify.password_mismatch', 'warning')
+  }
 
   try {
     const res = await fetch(`${API_BASE}/create_account`, {
@@ -220,25 +220,32 @@ async function registerSubmit() {
     const data = await res.json().catch(() => ({}))
 
     if (res.ok && data.status === 'ok') {
-      notify('Registration successful', 'success')
-
+      notify('notify.registration_success', 'success')
       regEmail.value = ''
       regPassword.value = ''
       regConfirmPassword.value = ''
-
       selectedRole.value = null
       setTab('login')
-
       return
     }
 
-    throw new Error(data.detail || 'Registration error')
+    if (data.detail?.key) {
+      switch (data.detail.key) {
+        case 'missing_fields':
+          throw new Error(t('notify.missing_fields'))
+        case 'user_exists':
+          throw new Error(t('notify.user_exists'))
+        default:
+          throw new Error(t('notify.registration_error'))
+      }
+    }
+
+    throw new Error(t('notify.registration_error'))
   } catch (e) {
     notify(e.message, 'error')
   }
 }
 
-/* WATCH */
 watch(() => props.modelValue, (val) => {
   if (val) {
     activeTab.value = 'login'

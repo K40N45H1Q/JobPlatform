@@ -1,8 +1,5 @@
 {
   "en": {
-    "textLogo": "LOGO",
-    "sign": "Sign In",
-    "up": "Sign Up",
     "email": "Email",
     "password": "Password",
     "login": "Sign In",
@@ -17,24 +14,46 @@
     "confirm_password": "Confirm password",
     "topEmployers": "Top employers",
     "offers": "offers",
-    "header": { "title": { "part1": "Find your ", "part2": "dream job" } },
-    "languages": { "label": "Languages", "en": "English", "ru": "Russian" },
-    "menu": { "title": "Menu", "employers": "For employers", "entrance": "Login/Register" },
+    "menu": {
+      "title": "Menu",
+      "employers": "For employers",
+      "entrance": "Login/Register"
+    },
+    "languages": {
+      "label": "Languages",
+      "en": "English",
+      "ru": "Russian"
+    },
+    "header": {
+      "title": {
+        "part1": "Find your ",
+        "part2": "dream job"
+      }
+    },
     "search": {
-      "search.noPlaces": "No cities",
-      "noCategories": "No categories",
       "placeLabel": "Place of work",
       "categoryLabel": "Job category",
       "keywordLabel": "Keyword",
       "button": "Show results",
+      "noPlaces": "No cities",
+      "noCategories": "No categories",
       "places": ["Riga","Daugavpils","Liepaja","Jelgava","Jurmala","Ventspils","Rezekne","Valmiera","Ogre","Jekabpils","Tukums","Cesis","Kuldiga","Saldus","Limbazi","Madona","Bauska","Sigulda","Salaspils","Olaine","Marupe","Kekava","Aizkraukle","Dobele","Aluksne","Gulbene","Ludza","Balvi","Kraslava","Smiltene","Skrunda","Aizpute","Viesite","Nereta","Iecava","Rucava","Rujiena","Sabile","Valka"],
       "categories": ["IT","Construction","Logistics","Sales","Healthcare","Education","Hospitality"]
+    },
+    "notify": {
+      "login_success": "Login successful",
+      "registration_success": "Registration successful",
+      "password_mismatch": "Passwords do not match",
+      "missing_fields": "Missing required fields",
+      "user_exists": "User already exists",
+      "login_error": "Login error",
+      "registration_error": "Registration error"
+    },
+    "errors": {
+      "invalid_credentials": "Invalid username or password"
     }
   },
   "ru": {
-    "textLogo": "Логотип",
-    "sign": "Войти",
-    "up": "Зарегистрироваться",
     "email": "Электронная почта",
     "password": "Пароль",
     "login": "Войти",
@@ -47,18 +66,45 @@
     "jobseeker": "соискателя",
     "employer": "работодателя",
     "confirm_password": "Подтверждение пароля",
-    "offers": "предложений",
     "topEmployers": "Топ работодателей",
-    "header": { "title": { "part1": "Найдите ", "part2": "работу своей мечты." } },
-    "languages": { "label": "Языки", "en": "Английский", "ru": "Русский" },
-    "menu": { "title": "Меню", "employers": "Для работодателей", "entrance": "Вход/Регистрация" },
+    "offers": "предложений",
+    "menu": {
+      "title": "Меню",
+      "employers": "Для работодателей",
+      "entrance": "Вход/Регистрация"
+    },
+    "languages": {
+      "label": "Языки",
+      "en": "Английский",
+      "ru": "Русский"
+    },
+    "header": {
+      "title": {
+        "part1": "Найдите ",
+        "part2": "работу своей мечты."
+      }
+    },
     "search": {
       "placeLabel": "Место работы",
       "categoryLabel": "Категория работы",
       "keywordLabel": "Ключевое слово",
       "button": "Показать результаты",
+      "noPlaces": "Нет городов",
+      "noCategories": "Нет категорий",
       "places": ["Рига","Даугавпилс","Лиепая","Елгава","Юрмала","Вентспилс","Резекне","Валмиера","Огре","Екабпилс","Тукумс","Цесис","Кулдига","Салдус","Лимбажи","Мадона","Бауска","Сигулда","Саласпилс","Олайне","Марупе","Кекава","Айзкраукле","Добеле","Алуксне","Гулбене","Лудза","Балви","Краслава","Смилтене","Скрунда","Айзпуте","Виесите","Нерета","Иецава","Руцава","Руйена","Сабиле","Валка"],
       "categories": ["IT","Строительство","Логистика","Продажи","Здравоохранение","Образование","Гостеприимство"]
+    },
+    "notify": {
+      "login_success": "Вход выполнен",
+      "registration_success": "Регистрация выполнена",
+      "password_mismatch": "Пароли не совпадают",
+      "missing_fields": "Отсутствуют обязательные поля",
+      "user_exists": "Пользователь уже существует",
+      "login_error": "Ошибка входа",
+      "registration_error": "Ошибка регистрации"
+    },
+    "errors": {
+      "invalid_credentials": "Неверный логин или пароль"
     }
   }
 }
